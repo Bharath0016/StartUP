@@ -2,11 +2,22 @@
     <div style="display:none;" th:fragment="title" th:inline="text">[[${BLC_PAGE.description}]] - Broadleaf Demo - Heat Clinic</div>
     
     <section id="left_column">
-        <header>
-            <h1 th:text="${BLC_PAGE.pageFields[title]}"></h1>
-        </header>
-        <div class="clearfix"></div>
-        <div th:utext="${BLC_PAGE.pageFields[body]}"/>
+        <div id="qpaper_content">
+            <div id="content_title" th:utext="${BLC_PAGE.pageFields[HTMLtitle]}"></div>
+			<div class="clearfix"></div>
+			<div class="pdf_link">
+			<!-- <a 	th:attr="onClick=${'createPDFForm(''__${BLC_PAGE.pageFields[title]}__'')'}"
+                href="javascript:;" ><img th:src="@{/img/PDF_Icon.png}" alt="Download PDF" /><span>Download PDF</span></a>
+                 -->
+            <form id="myform" th:action="@{/createPDF}">
+  				<!-- form elements -->
+  				<a href="#" onclick="createPDFForm()"><img th:src="@{/img/PDF_Icon.png}" alt="Download PDF" /><span>Download PDF</span></a>
+				<input type="hidden" name="title" th:value="${BLC_PAGE.pageFields[title]}"/>
+				<input type="hidden" name="title" th:value="${BLC_PAGE.pageFields[body]}"/>
+			</form>     
+            </div>
+			<div id="content_body" th:utext="${BLC_PAGE.pageFields[HTMLbody]}"></div>
+		</div>
     </section>
     
     <section id="right_column">
@@ -21,5 +32,8 @@
         </div>
     </section>  
 </div>
+<script>
+
+</script>
         
             

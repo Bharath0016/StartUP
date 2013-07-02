@@ -10,6 +10,10 @@ var HC = (function($) {
         });
     }
     
+    function createPDFForm() {
+        alert("Hello PDF");
+    } 
+    
     function updateCurrentImage() {
         //grab the active product option values
         var activeOptions = $('.product-options .active');
@@ -124,3 +128,9 @@ var HC = (function($) {
         updateLocaleSelection: updateLocaleSelection
     }
 })($);
+
+function createPDFForm(title) {
+    alert("hello");	
+	document.getElementById('myform').submit();
+	alert("hello1");
+}

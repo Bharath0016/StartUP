@@ -4,6 +4,8 @@ var BLC = (function($) {
     var redirectUrlDiv = "blc-redirect-url",
         extraDataDiv   = "blc-extra-data";
     
+       
+    
     function redirectIfNecessary($data) {
         if ($data.attr('id') == redirectUrlDiv) {
             var redirectUrl = $data.text();

@@ -2076,6 +2076,61 @@ footer {
         text-decoration: none;
         display: inline-block;
     }
+	
+/******************************************************
+======================================================
+			Question paper content
+======================================================
+******************************************************/			
+
+#qpaper_content{
+	//border:1px solid #000;
+	background-color: #F1F1F1;
+	margin:20px 15px 20px 15px;
+	
+	/*Rounded corners*/
+	
+	-moz-border-radius: 10px;  
+    -webkit-border-radius: 10px;  
+    border-radius: 10px;
+}
+
+#content_title{
+	//border:1px solid #000;
+	text-align:center;
+	font-size:18px;
+	color:#000;
+	margin:5px;
+	border-bottom: 1px solid rgb(214, 214, 214);
+	font-family:'Time New Romans',sans serif;
+	text-transform: uppercase;
+}
+
+#content_body{
+	font-family: 'Time New Romans',sans serif;
+    font-size: 17px;  
+    color: #000;
+	margin-left:20px;
+	padding:0px 0px 5px 0px;
+}
+
+#qpimage{
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pdf_link a{
+	float:right;
+	margin:0px 4px 0px 0px;
+}
+.pdf_link img{
+	width:40px;
+}
+
+/******************************************************
+						END
+******************************************************/		
 
 /* Shared styles between all buttons */
 input[type="submit"].big, a.big-button, 

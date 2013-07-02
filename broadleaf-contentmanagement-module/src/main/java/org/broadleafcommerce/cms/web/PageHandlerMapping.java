@@ -26,11 +26,19 @@ import org.broadleafcommerce.common.time.SystemTime;
 import org.broadleafcommerce.common.web.BLCAbstractHandlerMapping;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This handler mapping works with the Page entity to determine if a page has been configured for
@@ -56,17 +64,31 @@ public class PageHandlerMapping extends BLCAbstractHandlerMapping {
     @Resource(name = "blPageService")
     private PageService pageService;
     
-    public static final String PAGE_ATTRIBUTE_NAME = "BLC_PAGE";        
+    public static final String PAGE_ATTRIBUTE_NAME = "BLC_PAGE";
 
     @Override
     protected Object getHandlerInternal(HttpServletRequest request) throws Exception {
         BroadleafRequestContext context = BroadleafRequestContext.getBroadleafRequestContext();
+        
         if (context != null && context.getRequestURIWithoutContext() != null) {
             PageDTO page = pageService.findPageByURI(context.getSandbox(), context.getLocale(), context.getRequestURIWithoutContext(), buildMvelParameters(request), context.isSecure());
 
             if (page != null && ! (page instanceof NullPageDTO)) {
-                context.getRequest().setAttribute(PAGE_ATTRIBUTE_NAME, page);
-                return controllerName;
+            	try{
+            		
+        	        System.out.println("7");
+        	        System.out.println("converting to HTML");
+        	        
+        	              //System.out.println("************"+page.getPageFields().get("body")+"****************");
+        	            	
+        	            	page.getPageFields().put("HTMLtitle",sample(page.getPageFields().get("title")));
+        	            	page.getPageFields().put("HTMLbody",sample(page.getPageFields().get("body")));
+        	                context.getRequest().setAttribute(PAGE_ATTRIBUTE_NAME, page);
+        	                System.out.println("converted to HTML");
+        	                return controllerName;
+            	    }catch(Exception e){
+            	    	System.out.println(e.fillInStackTrace());
+            	    }
             }
         }
         return null;
@@ -96,5 +118,61 @@ public class PageHandlerMapping extends BLCAbstractHandlerMapping {
 
         return mvelParameters;
     }
+    
+    public String sample(String s){
+            StringBuilder builder = new StringBuilder();
+            int breakflag=0;
+            builder.append("<p>");
+            boolean previousWasASpace = false;
+            for (char c : s.toCharArray()) {
+                if (c == ' ') {
+                    if (previousWasASpace) {
+                        builder.append(" ");
+                        previousWasASpace = false;
+                        continue;
+                    }
+                    previousWasASpace = true;
+                } else {
+                    previousWasASpace = false;
+                }
+                switch (c) {
+                    case '<':
+                        builder.append("<");
+                        break;
+                    case '>':
+                        builder.append(">");
+                        break;
+                    case '&':
+                        builder.append("&");
+                        break;
+                    case '\n':
+                        if(breakflag==1){
+	                    	builder.append("</br>");
+	                    	breakflag=0;
+	                        break;
+                        }else{
+                        	builder.append("<br>");
+	                    	breakflag=1;
+	                        break;
+                        }
+                    // We need Tab support here, because we print StackTraces as HTML
+                    case '\t':
+                        builder.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        break;
+                    default:
+                        builder.append(c);
+
+                }
+            }
+            builder.append("</p>");
+            String converted = builder.toString();
+            String str = "(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:\'\".,<>?«»“”‘’]))";
+            Pattern patt = Pattern.compile(str);
+            Matcher matcher = patt.matcher(converted);
+            converted = matcher.replaceAll("<a href=\"$1\">$1</a>");
+            //System.out.println(converted);
+            return converted;
+    }
+    
 
 }
