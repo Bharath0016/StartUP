@@ -36,27 +36,27 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController extends BroadleafLoginController {
     
-    @RequestMapping("/mycompany/login")
+    @RequestMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
         return super.login(request, response, model);
     }
     
-    @RequestMapping(value="/mycompany/login/forgotPassword", method=RequestMethod.GET)
+    @RequestMapping(value="/login/forgotPassword", method=RequestMethod.GET)
     public String forgotPassword(HttpServletRequest request, HttpServletResponse response, Model model) {
         return super.forgotPassword(request, response, model);
     }
     
-    @RequestMapping(value="/mycompany/login/forgotPassword", method=RequestMethod.POST)
+    @RequestMapping(value="/login/forgotPassword", method=RequestMethod.POST)
     public String processForgotPassword(@RequestParam("emailAddress") String emailAddress, HttpServletRequest request, Model model) {
         return super.processForgotPassword(emailAddress, request, model);
     }   
 
-    @RequestMapping(value="/mycompany/login/resetPassword", method=RequestMethod.GET)
+    @RequestMapping(value="/login/resetPassword", method=RequestMethod.GET)
     public String resetPassword(HttpServletRequest request, HttpServletResponse response, Model model) {
         return super.resetPassword(request, response, model);
     }   
     
-    @RequestMapping(value="/mycompany/login/resetPassword", method=RequestMethod.POST)
+    @RequestMapping(value="/login/resetPassword", method=RequestMethod.POST)
     public String processResetPassword(@ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm, HttpServletRequest request, HttpServletResponse response, Model model, BindingResult errors) throws ServiceException {
         return super.processResetPassword(resetPasswordForm, request, response, model, errors);
     }   

@@ -74,18 +74,11 @@ public class PageHandlerMapping extends BLCAbstractHandlerMapping {
             PageDTO page = pageService.findPageByURI(context.getSandbox(), context.getLocale(), context.getRequestURIWithoutContext(), buildMvelParameters(request), context.isSecure());
 
             if (page != null && ! (page instanceof NullPageDTO)) {
-            	try{
-            		
-        	        System.out.println("7");
-        	        System.out.println("converting to HTML");
-        	        
-        	              //System.out.println("************"+page.getPageFields().get("body")+"****************");
-        	            	
-        	            	page.getPageFields().put("HTMLtitle",sample(page.getPageFields().get("title")));
-        	            	page.getPageFields().put("HTMLbody",sample(page.getPageFields().get("body")));
-        	                context.getRequest().setAttribute(PAGE_ATTRIBUTE_NAME, page);
-        	                System.out.println("converted to HTML");
-        	                return controllerName;
+            	try{        	            	
+        	          	page.getPageFields().put("HTMLtitle",htmlViewGenerator(page.getPageFields().get("title")));
+        	            page.getPageFields().put("HTMLbody",htmlViewGenerator(page.getPageFields().get("body")));
+        	            context.getRequest().setAttribute(PAGE_ATTRIBUTE_NAME, page);
+        	            return controllerName;
             	    }catch(Exception e){
             	    	System.out.println(e.fillInStackTrace());
             	    }
@@ -119,7 +112,7 @@ public class PageHandlerMapping extends BLCAbstractHandlerMapping {
         return mvelParameters;
     }
     
-    public String sample(String s){
+    public String htmlViewGenerator(String s){
             StringBuilder builder = new StringBuilder();
             int breakflag=0;
             builder.append("<p>");
@@ -170,7 +163,6 @@ public class PageHandlerMapping extends BLCAbstractHandlerMapping {
             Pattern patt = Pattern.compile(str);
             Matcher matcher = patt.matcher(converted);
             converted = matcher.replaceAll("<a href=\"$1\">$1</a>");
-            //System.out.println(converted);
             return converted;
     }
     

@@ -73,9 +73,16 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @return the return view
      */
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-        if (StringUtils.isNotBlank(request.getParameter("successUrl"))) {
-            model.addAttribute("successUrl", request.getParameter("successUrl"));
-        }
+    	
+    	if (StringUtils.isNotBlank(request.getParameter("successUrl"))){
+    	String[] successUrl = request.getParameter("successUrl").split("/",3);
+	    	if(!(request.getContextPath().split("/")[request.getContextPath().split("/").length-1].equals(successUrl[successUrl.length-1]))) {
+	            model.addAttribute("successUrl", "/"+successUrl[successUrl.length-1]);
+	        }
+	        else{
+	        	model.addAttribute("successUrl", "/");
+	        }
+    	}
         return getLoginView();
     }
     

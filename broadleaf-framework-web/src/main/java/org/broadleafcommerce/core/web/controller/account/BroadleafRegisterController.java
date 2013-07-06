@@ -66,11 +66,16 @@ public class BroadleafRegisterController extends BroadleafAbstractController {
     protected LoginService loginService;    
     
     public String register(RegisterCustomerForm registerCustomerForm, HttpServletRequest request, 
-            HttpServletResponse response, Model model) {
-        String redirectUrl = request.getParameter("successUrl");
-        if (StringUtils.isNotBlank(redirectUrl)) {
-            registerCustomerForm.setRedirectUrl(redirectUrl);
-        }
+            HttpServletResponse response, Model model) {   	
+    	if (StringUtils.isNotBlank(request.getParameter("successUrl"))){
+    		String[] successUrl = request.getParameter("successUrl").split("/",3);
+	         if(!(request.getContextPath().split("/")[request.getContextPath().split("/").length-1].equals(successUrl[successUrl.length-1]))) {
+	            registerCustomerForm.setRedirectUrl("/"+successUrl[successUrl.length-1]);
+	        }
+	        else{
+	        	model.addAttribute("successUrl", "/");
+	        }
+    	}
         return getRegisterView();
     }
     

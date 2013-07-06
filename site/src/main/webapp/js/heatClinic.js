@@ -8,10 +8,6 @@ var HC = (function($) {
             openEffect: 'none',
             closeEffect: 'none'
         });
-    }
-    
-    function createPDFForm() {
-        alert("Hello PDF");
     } 
     
     function updateCurrentImage() {

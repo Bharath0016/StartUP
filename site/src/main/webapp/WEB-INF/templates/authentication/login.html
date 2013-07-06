@@ -11,8 +11,10 @@
 
         <div class="clearfix">
             <blc:form th:action="@{/login_post.htm}" method="post">
-                <input type="hidden" name="successUrl" th:if="${successUrl}" th:value="${successUrl}"/>
-                
+			
+				<!-- On login success redirected to success yrl -->
+				<input type="hidden" name="successUrl" th:if="${successUrl}" th:value="${successUrl}"/>
+                			
                 <div class="form50">
                     <label for="j_username"><span th:text="#{login.email}">Email</span></label>
                     <input type="email" name="j_username" th:class="${param.error} ? 'field50 fieldError' : 'field50'" />

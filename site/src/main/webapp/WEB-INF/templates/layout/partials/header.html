@@ -4,11 +4,11 @@
 
             <div th:if="${customer.anonymous}"  th:remove="tag">
 
-                <a class="account" th:href="@{/login}">
+                <a class="account" th:href="@{/login(successUrl='__${#httpServletRequest.RequestURI}__')}">
                     <span th:text="#{home.login}">Login</span>
                 </a>
                 &nbsp;|&nbsp; 
-                <a class="account" th:href="@{/register}" method="GET">
+                <a class="account" th:href="@{/register(successUrl='__${#httpServletRequest.RequestURI}__')}" method="GET">
                     <span th:text="#{home.register}">Register</span>
                 </a>
                 &nbsp;|&nbsp; 

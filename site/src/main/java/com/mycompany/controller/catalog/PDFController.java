@@ -68,23 +68,14 @@ public class PDFController {
             HttpServletResponse response) throws IOException {
  
     	try{
-    	
-    	System.out.println("1");
-    	// get absolute path of the application
     	BroadleafRequestContext context = BroadleafRequestContext.getBroadleafRequestContext();
-        //String appPath = context.getRealPath("");
-        //System.out.println("appPath = " + appPath);
-    	System.out.println("converting to HTML");
 		Document document = new Document(PageSize.A4, 36, 72, 108, 180);
 	    PdfWriter.getInstance(document,new FileOutputStream("C:\\Users\\Bharath\\Desktop\\bharath1.pdf"));
 	    document.open();
-	    
     	Map<String, String[]> map = (Map<String, String[]>)context.getRequest().getParameterMap();
     	Iterator<Map.Entry<String, String[]>> it = map.entrySet().iterator();
-    	System.out.println("empty="+context.getRequest().getParameterMap().isEmpty());
     	while (it.hasNext()) {
-            Map.Entry<String, String[]> pairs = (Map.Entry<String, String[]>)it.next();
-            System.out.println(pairs.getKey() + " = " + pairs.getValue()+"pppppp"+Arrays.toString(pairs.getValue()));
+            Map.Entry<String, String[]> pairs = (Map.Entry<String, String[]>)it.next();     
             document.add(new Paragraph(Arrays.toString(pairs.getValue())));
             it.remove(); // avoids a ConcurrentModificationException
         }
@@ -93,55 +84,27 @@ public class PDFController {
     	}catch(Exception e){
     		e.printStackTrace();
     	}
-    	// construct the complete absolute path of the file
-        //String fullPath = appPath + filePath;      
-    	System.out.println("3");
     	File downloadFile = new File("C:\\Users\\Bharath\\Desktop\\bharath1.pdf");
-    	System.out.println("4");
     	FileInputStream inputStream = new FileInputStream(downloadFile);
-         
-        // get MIME type of the file
-        //String mimeType = context.getMimeType(fullPath);
-        //if (mimeType == null) {
-            // set to binary type if MIME mapping not found
-            //mimeType = "application/octet-stream";
-        //}
-        //System.out.println("MIME type: " + mimeType);
- 
-        // set content attributes for the response
-    	System.out.println("5");
     	response.setContentType("application/pdf");
-    	System.out.println("6");
         response.setContentLength((int) downloadFile.length());
- 
         // set headers for the response
-        System.out.println("7");
         String headerKey = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"",
                 downloadFile.getName());
         response.setHeader(headerKey, headerValue);
-        
-        System.out.println("8");
-        // get output stream of the response
         OutputStream outStream = response.getOutputStream();
- 
         System.out.println("9");
         byte[] buffer = new byte[BUFFER_SIZE];
         int bytesRead = -1;
- 
         System.out.println("10");
         // write bytes read from the input stream into the output stream
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outStream.write(buffer, 0, bytesRead);
         }
- 
-        System.out.println("11");
         inputStream.close();
         outStream.close();
-        System.out.println("12");
         response.flushBuffer();
         boolean success = (new File("C:\\Users\\Bharath\\Desktop\\bharath1.pdf")).delete();
-        System.out.println(success);
- 
     }
 }

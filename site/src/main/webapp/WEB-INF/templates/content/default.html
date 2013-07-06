@@ -5,16 +5,23 @@
         <div id="qpaper_content">
             <div id="content_title" th:utext="${BLC_PAGE.pageFields[HTMLtitle]}"></div>
 			<div class="clearfix"></div>
-			<div class="pdf_link">
-			<!-- <a 	th:attr="onClick=${'createPDFForm(''__${BLC_PAGE.pageFields[title]}__'')'}"
-                href="javascript:;" ><img th:src="@{/img/PDF_Icon.png}" alt="Download PDF" /><span>Download PDF</span></a>
-                 -->
-            <form id="myform" th:action="@{/createPDF}">
-  				<!-- form elements -->
-  				<a href="#" onclick="createPDFForm()"><img th:src="@{/img/PDF_Icon.png}" alt="Download PDF" /><span>Download PDF</span></a>
-				<input type="hidden" name="title" th:value="${BLC_PAGE.pageFields[title]}"/>
-				<input type="hidden" name="title" th:value="${BLC_PAGE.pageFields[body]}"/>
-			</form>     
+			<div id="pdf_link">
+				<div th:if="${customer.anonymous}"  th:remove="tag">
+
+					<a class="account" th:href="@{/login(successUrl='__${#httpServletRequest.RequestURI}__')}">
+						<span th:text="#{home.login}">Login</span>
+					</a>
+					&nbsp;|&nbsp;
+					<a class="account" th:href="@{/register(successUrl='__${#httpServletRequest.RequestURI}__')}" method="GET">
+						<span th:text="#{home.register}">Register</span>
+					</a>
+					&nbsp;to download your PDF&nbsp; 
+				</div>
+				<div th:unless="${customer.anonymous}" th:remove="tag">
+					<!-- <span><span th:text="#{home.welcome}">Welcome</span>, <a class="my-account" th:href="@{/account}" th:text="${customer.firstName}"></a></span> -->
+						<a class="drop" th:href="@{/createPDF(title='__${BLC_PAGE.pageFields[title]}__',body='__${BLC_PAGE.pageFields[body]}__')}" method="POST"><img th:src="@{/img/PDF_Icon.png}" alt="Download PDF" /><span>Download your PDF</span></a>
+					 
+				</div>					
             </div>
 			<div id="content_body" th:utext="${BLC_PAGE.pageFields[HTMLbody]}"></div>
 		</div>

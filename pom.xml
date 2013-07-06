@@ -38,7 +38,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.zeroturnaround</groupId>
                                         <artifactId>jrebel-maven-plugin</artifactId>
-                                        <versionRange>[1.0,)</versionRange>
+                                        <versionRange>1.0.5</versionRange>
                                         <goals>
                                             <goal>generate</goal>
                                         </goals>
@@ -247,11 +247,11 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
-			    <groupId>mysql</groupId>
-			    <artifactId>mysql-connector-java</artifactId>
-			    <version>5.1.21</version>
-			    <type>jar</type>
-			    <scope>compile</scope>
+    			<groupId>mysql</groupId>
+    			<artifactId>mysql-connector-java</artifactId>
+    			<version>5.1.21</version>
+    			<type>jar</type>
+    			<scope>compile</scope>
 			</dependency>
             <dependency>
                 <groupId>commons-dbcp</groupId>

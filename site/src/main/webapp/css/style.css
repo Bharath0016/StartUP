@@ -2120,11 +2120,13 @@ footer {
 	margin-right: auto;
 }
 
-.pdf_link a{
+#pdf_link {
 	float:right;
+}
+#pdf_link a{
 	margin:0px 4px 0px 0px;
 }
-.pdf_link img{
+#pdf_link img{
 	width:40px;
 }
 
